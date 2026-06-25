@@ -1,0 +1,167 @@
+---
+// src/components/Header.astro
+// EDIT: Update nav links, logo path, or Pinterest URL below
+const navLinks = [
+  { label: 'Home',  href: '/' },
+  { label: 'Blog',  href: '/blog' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    gap: 1rem;
+  }
+  .logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  .logo-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .logo-text {
+    font-family: var(--font-head);
+    font-weight: 900;
+    font-size: 1.15rem;
+    color: var(--text-dark);
+    line-height: 1.1;
+  }
+  .logo-text span { color: var(--coral); }
+
+  nav { display: flex; align-items: center; gap: 0.25rem; }
+  nav a {
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-body);
+    transition: background 0.18s, color 0.18s;
+  }
+  nav a:hover  { background: #FFF0F3; color: var(--coral); }
+  nav a.active { background: var(--grad-brand); color: var(--white); }
+
+  .nav-cta {
+    background: var(--grad-brand);
+    color: var(--white) !important;
+    padding: 0.5rem 1.2rem !important;
+    box-shadow: var(--shadow-sm);
+  }
+  .nav-cta:hover { opacity: 0.9; box-shadow: var(--shadow-md); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-dark);
+    border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem 1.5rem;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+  .mobile-nav a {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-head);
+    font-weight: 700;
+    color: var(--text-body);
+    transition: background 0.18s, color 0.18s;
+  }
+  .mobile-nav a:hover  { background: #FFF0F3; color: var(--coral); }
+  .mobile-nav a.active { background: var(--grad-brand); color: var(--white); }
+
+  @media (max-width: 768px) {
+    .hamburger { display: flex; }
+    nav { display: none; }
+    .mobile-nav.open { display: flex; }
+  }
+</style>
+
+<header>
+  <div class="container">
+    <div class="nav-inner">
+      <!-- EDIT: Replace logo.png with your logo file path if different -->
+      <a href="/" class="logo-link" aria-label="Smart Reward Finds Home">
+        <img src="/images/logo.png" alt="Smart Reward Finds Logo" class="logo-img" width="48" height="48" />
+        <span class="logo-text">Smart <span>Reward</span><br/>Finds</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        {navLinks.map(link => (
+          <a
+            href={link.href}
+            class={currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href)) ? 'active' : ''}
+            aria-current={currentPath === link.href ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))}
+        <!-- EDIT: Remove or update this CTA link -->
+        <a href="/blog" class="nav-cta">Explore Finds →</a>
+      </nav>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Mobile navigation">
+    {navLinks.map(link => (
+      <a
+        href={link.href}
+        class={currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href)) ? 'active' : ''}
+      >
+        {link.label}
+      </a>
+    ))}
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('hamburger');
+  const nav = document.getElementById('mobile-nav');
+  btn?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+</script>

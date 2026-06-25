@@ -1,0 +1,114 @@
+---
+// src/pages/editorial-policy.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+const updated = "June 2025";
+---
+
+<style>
+  .legal-hero { background: var(--grad-hero); padding: 3.5rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .legal-hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 0.5rem; }
+  .legal-meta  { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; }
+  .legal-body  { max-width: 780px; margin-inline: auto; padding: 3.5rem 1.5rem 5rem; }
+  .legal-body h2 { font-size: 1.2rem; margin: 2.5rem 0 0.75rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .legal-body h2:first-of-type { border-top: none; margin-top: 0; }
+  .legal-body p  { margin-bottom: 1rem; line-height: 1.8; font-size: 0.97rem; }
+  .legal-body ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+  .legal-body ul li { margin-bottom: 0.4rem; line-height: 1.7; font-size: 0.95rem; }
+  .legal-body a  { color: var(--coral); }
+</style>
+
+<BaseLayout
+  title="Editorial Policy — Smart Reward Finds"
+  description="How Smart Reward Finds selects, writes, and maintains content about rewards, tools, and offers."
+>
+  <section class="legal-hero">
+    <div class="container">
+      <span class="section-label">Our Approach</span>
+      <h1>Editorial Policy &amp; How We Share Offers</h1>
+      <p class="legal-meta">Last updated: {updated}</p>
+    </div>
+  </section>
+
+  <div class="legal-body container">
+
+    <p>
+      Smart Reward Finds is a curated content blog. This page explains how we select what to write about,
+      how we write it, and how we handle updates, corrections, and affiliate relationships in our content.
+    </p>
+
+    <h2>Our Content Goal</h2>
+    <p>
+      The goal of every piece of content we publish is to give readers a clear, honest, beginner-friendly
+      overview of a tool, offer, platform, or reward opportunity — so they can make an informed decision about
+      whether to pursue it.
+    </p>
+    <p>
+      We are not trying to get you to click. We are trying to help you understand something well enough to
+      decide for yourself.
+    </p>
+
+    <h2>How We Select Topics</h2>
+    <p>Topics on Smart Reward Finds are selected based on one or more of the following:</p>
+    <ul>
+      <li>The offer or tool appears to be legitimate and worth sharing with our readers</li>
+      <li>There is a genuine informational gap we can help fill</li>
+      <li>A reader or partner has suggested something we've evaluated as useful</li>
+      <li>The topic fits within our content categories (gift card giveaways, smart tools, reward apps, exclusive offers, product finds, how-to guides)</li>
+    </ul>
+    <p>
+      We do not publish content about every offer we encounter. If something looks misleading, unverified,
+      or unlikely to be useful for our audience, we don't cover it.
+    </p>
+
+    <h2>How We Write</h2>
+    <p>
+      We aim to write in plain language that is useful for a beginner. Our content typically includes:
+    </p>
+    <ul>
+      <li>A clear explanation of what the offer or tool is and how it works</li>
+      <li>What to look out for or be aware of</li>
+      <li>Any relevant caveats, limitations, or points of caution</li>
+      <li>A transparent note about any affiliate relationship if applicable</li>
+    </ul>
+    <p>
+      We do not use fake urgency, fabricated testimonials, misleading "you've been selected" language,
+      fake countdowns, or other manipulative tactics.
+    </p>
+
+    <h2>Affiliate &amp; Sponsored Content</h2>
+    <p>
+      Some content on this site may contain affiliate links or may have been created in partnership with
+      a third-party brand. When this is the case, we disclose it clearly — either within the post itself
+      or through our <a href="/affiliate-disclosure">Affiliate Disclosure</a> page.
+    </p>
+    <p>
+      Affiliate relationships and sponsored arrangements do not change our commitment to accuracy or our
+      obligation to share relevant caveats with readers. If an offer has meaningful limitations, we include them.
+    </p>
+
+    <h2>Corrections &amp; Updates</h2>
+    <p>
+      We try to update content when offer terms change, platforms evolve, or new information becomes available.
+      However, we cannot guarantee that every piece of content is always current.
+    </p>
+    <p>
+      If you notice something that is inaccurate or out of date, please use our <a href="/contact">Contact page</a>
+      to let us know. We take correction requests seriously and review them promptly.
+    </p>
+
+    <h2>What We Are Not</h2>
+    <p>To be clear, Smart Reward Finds is:</p>
+    <ul>
+      <li><strong>Not</strong> the operator or manager of any third-party offer or reward platform</li>
+      <li><strong>Not</strong> a financial advisor or investment service</li>
+      <li><strong>Not</strong> a source of guaranteed results or income claims</li>
+      <li><strong>Not</strong> affiliated with or endorsed by any third-party brand unless explicitly stated</li>
+    </ul>
+
+    <h2>Questions?</h2>
+    <p>
+      If you have questions about our editorial approach, please <a href="/contact">contact us</a>.
+    </p>
+
+  </div>
+</BaseLayout>

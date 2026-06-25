@@ -1,0 +1,127 @@
+---
+// src/components/PostCard.astro
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  category: string;
+  slug: string;
+  featuredImage?: string;
+  featuredImageAlt?: string;
+}
+
+const { title, description, pubDate, category, slug, featuredImage, featuredImageAlt } = Astro.props;
+
+const dateStr = pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+const categoryColors: Record<string, string> = {
+  'Gift Card Giveaways': 'badge-coral',
+  'Smart Tools': 'badge-orange',
+  'Reward Apps': 'badge-purple',
+  'Exclusive Offers': 'badge-green',
+  'Product Finds': 'badge-yellow',
+  'How-To Guides': 'badge-navy',
+};
+const badgeClass = categoryColors[category] ?? 'badge-coral';
+
+// Placeholder image based on category
+const placeholderImages: Record<string, string> = {
+  'Gift Card Giveaways': '/images/placeholder-giftcard.jpg',
+  'Smart Tools': '/images/placeholder-tools.jpg',
+  'Reward Apps': '/images/placeholder-apps.jpg',
+  'Exclusive Offers': '/images/placeholder-offers.jpg',
+  'Product Finds': '/images/placeholder-products.jpg',
+  'How-To Guides': '/images/placeholder-guides.jpg',
+};
+const imgSrc = featuredImage || placeholderImages[category] || '/images/cover-banner.png';
+---
+
+<style>
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border);
+    transition: transform 0.25s, box-shadow 0.25s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+  .post-card-image {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--soft-gray);
+  }
+  .post-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s;
+  }
+  .post-card:hover .post-card-image img { transform: scale(1.04); }
+
+  .post-card-body {
+    padding: 1.25rem 1.4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.6rem;
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .post-date {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: var(--font-head);
+  }
+  .post-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.3;
+    font-family: var(--font-head);
+  }
+  .post-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .post-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--coral);
+    margin-top: 0.25rem;
+    transition: gap 0.2s;
+  }
+  .post-card:hover .post-read-more { gap: 0.6rem; }
+</style>
+
+<a href={`/blog/${slug}`} class="post-card" aria-label={`Read: ${title}`}>
+  <div class="post-card-image">
+    <img src={imgSrc} alt={featuredImageAlt || title} loading="lazy" width="400" height="225" />
+  </div>
+  <div class="post-card-body">
+    <div class="post-meta">
+      <span class={`badge ${badgeClass}`}>{category}</span>
+      <span class="post-date">{dateStr}</span>
+    </div>
+    <h3 class="post-title">{title}</h3>
+    <p class="post-desc">{description}</p>
+    <span class="post-read-more">Read guide →</span>
+  </div>
+</a>

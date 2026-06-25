@@ -1,0 +1,89 @@
+---
+// src/components/CategoryCard.astro
+interface Props {
+  title: string;
+  description: string;
+  icon: string;
+  href: string;
+  colorClass: string;
+}
+const { title, description, icon, href, colorClass } = Astro.props;
+---
+
+<style>
+  .cat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    box-shadow: var(--shadow-card);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--grad-brand);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: transparent; }
+  .cat-card:hover::before { transform: scaleX(1); }
+
+  .cat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .cat-icon.coral  { background: #FFE8ED; }
+  .cat-icon.orange { background: #FFF3E0; }
+  .cat-icon.purple { background: #F0EAFF; }
+  .cat-icon.green  { background: #E8F8EC; }
+  .cat-icon.yellow { background: #FFFBE6; }
+  .cat-icon.navy   { background: #E8EAF0; }
+
+  .cat-title {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--text-dark);
+  }
+  .cat-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .cat-link {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--coral);
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+</style>
+
+<a href={href} class="cat-card">
+  <div class={`cat-icon ${colorClass}`} aria-hidden="true">{icon}</div>
+  <h3 class="cat-title">{title}</h3>
+  <p class="cat-desc">{description}</p>
+  <span class="cat-link">Browse finds →</span>
+</a>

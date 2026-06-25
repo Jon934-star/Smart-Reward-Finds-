@@ -1,0 +1,108 @@
+---
+// src/pages/disclaimer.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+const updated = "June 2025";
+---
+
+<style>
+  .legal-hero { background: var(--grad-hero); padding: 3.5rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .legal-hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 0.5rem; }
+  .legal-meta  { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; }
+  .legal-body  { max-width: 780px; margin-inline: auto; padding: 3.5rem 1.5rem 5rem; }
+  .legal-body h2 { font-size: 1.2rem; margin: 2.5rem 0 0.75rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .legal-body h2:first-of-type { border-top: none; margin-top: 0; }
+  .legal-body p  { margin-bottom: 1rem; line-height: 1.8; font-size: 0.97rem; }
+  .legal-body ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+  .legal-body ul li { margin-bottom: 0.4rem; line-height: 1.7; font-size: 0.95rem; }
+  .legal-body a  { color: var(--coral); }
+</style>
+
+<BaseLayout
+  title="Disclaimer — Smart Reward Finds"
+  description="Smart Reward Finds Disclaimer — important information about the informational nature of our content and our relationship with third-party services."
+>
+  <section class="legal-hero">
+    <div class="container">
+      <span class="section-label">Legal</span>
+      <h1>Disclaimer</h1>
+      <p class="legal-meta">Last updated: {updated}</p>
+    </div>
+  </section>
+
+  <div class="legal-body container">
+
+    <p>
+      Please read this Disclaimer carefully before using Smart Reward Finds (smartrewardfinds.com).
+      By accessing or using this website, you acknowledge that you have read, understood, and agree to be
+      bound by the terms of this Disclaimer.
+    </p>
+
+    <h2>Informational Content Only</h2>
+    <p>
+      All content published on Smart Reward Finds is provided for informational and educational purposes only.
+      Nothing on this site constitutes professional financial, legal, investment, or tax advice.
+      The information shared here is intended to help readers discover and understand third-party tools,
+      reward opportunities, and online offers — not to guarantee outcomes or results.
+    </p>
+
+    <h2>Third-Party Offers and Services</h2>
+    <p>
+      Smart Reward Finds shares information about third-party offers, platforms, reward apps, tools, and services.
+      We are not the operator, owner, or representative of any third-party service we write about unless
+      explicitly stated.
+    </p>
+    <p>We are not responsible for:</p>
+    <ul>
+      <li>The accuracy, availability, or terms of any third-party offer</li>
+      <li>Changes to third-party services, platforms, or reward programs after our content is published</li>
+      <li>The delivery of rewards, payments, gift cards, or any other benefits offered by third parties</li>
+      <li>Account issues, disputes, or support related to third-party platforms</li>
+      <li>The quality, legality, or safety of third-party products or services</li>
+    </ul>
+    <p>
+      Always verify offer details directly with the official provider before participating. Third-party
+      terms, conditions, and availability can change at any time.
+    </p>
+
+    <h2>No Guarantee of Results</h2>
+    <p>
+      Any information shared on this site about earning rewards, saving money, or benefiting from a particular
+      offer reflects general information about the program as we understand it at the time of writing.
+      Individual results will vary. We make no guarantee that you will achieve any particular outcome from
+      using any product, service, or offer referenced on this site.
+    </p>
+
+    <h2>Accuracy of Content</h2>
+    <p>
+      We strive to ensure that the information on Smart Reward Finds is accurate and up-to-date at the time
+      of publication. However, given the nature of online offers and reward programs, information can become
+      outdated quickly. We do not warrant that any content is complete, accurate, or current at the time
+      you read it.
+    </p>
+    <p>
+      If you notice inaccurate or outdated information, please use our <a href="/contact">Contact page</a>
+      to let us know. We appreciate reader corrections.
+    </p>
+
+    <h2>External Links</h2>
+    <p>
+      This website contains links to external websites. These links are provided for convenience and
+      informational purposes only. We have no control over the content, privacy practices, or accuracy
+      of information on external sites. The presence of a link does not constitute endorsement of that
+      site or its content.
+    </p>
+
+    <h2>Limitation of Liability</h2>
+    <p>
+      To the maximum extent permitted by law, Smart Reward Finds and its operators shall not be liable
+      for any direct, indirect, incidental, consequential, or punitive damages arising from your use of
+      this website or reliance on any content published here.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      If you have questions about this Disclaimer, please <a href="/contact">contact us</a>.
+    </p>
+
+  </div>
+</BaseLayout>

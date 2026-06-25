@@ -1,0 +1,104 @@
+---
+// src/pages/affiliate-disclosure.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+const updated = "June 2025";
+---
+
+<style>
+  .legal-hero { background: var(--grad-hero); padding: 3.5rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .legal-hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 0.5rem; }
+  .legal-meta  { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; }
+  .legal-body  { max-width: 780px; margin-inline: auto; padding: 3.5rem 1.5rem 5rem; }
+  .legal-body h2 { font-size: 1.2rem; margin: 2.5rem 0 0.75rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .legal-body h2:first-of-type { border-top: none; margin-top: 0; }
+  .legal-body p  { margin-bottom: 1rem; line-height: 1.8; font-size: 0.97rem; }
+  .legal-body ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+  .legal-body ul li { margin-bottom: 0.4rem; line-height: 1.7; font-size: 0.95rem; }
+  .legal-body a  { color: var(--coral); }
+  .highlight-box {
+    background: #FFF8F4;
+    border: 2px solid var(--coral);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-body);
+  }
+  .highlight-box strong { color: var(--text-dark); }
+</style>
+
+<BaseLayout
+  title="Affiliate Disclosure — Smart Reward Finds"
+  description="Smart Reward Finds Affiliate Disclosure — how we handle affiliate and partner links on this site."
+>
+  <section class="legal-hero">
+    <div class="container">
+      <span class="section-label">Legal</span>
+      <h1>Affiliate Disclosure</h1>
+      <p class="legal-meta">Last updated: {updated}</p>
+    </div>
+  </section>
+
+  <div class="legal-body container">
+
+    <div class="highlight-box">
+      <strong>Short version:</strong> Some links on Smart Reward Finds are affiliate or partner links.
+      If you click one and take an action (like signing up or making a purchase), we may earn a small commission —
+      at no extra cost to you. This helps us keep the site running. It never changes what we recommend.
+    </div>
+
+    <h2>What Is an Affiliate Link?</h2>
+    <p>
+      An affiliate link is a special URL that contains a unique tracking code. When you click an affiliate link
+      and complete a qualifying action — such as signing up for a platform, making a purchase, or completing an
+      offer — the company that runs that platform pays Smart Reward Finds a small referral fee or commission.
+    </p>
+    <p>
+      You don't pay anything extra by using an affiliate link. The commission comes from the company's marketing
+      budget, not from you.
+    </p>
+
+    <h2>How We Handle Affiliate Relationships</h2>
+    <p>
+      Smart Reward Finds may contain affiliate links to third-party products, services, platforms, tools,
+      reward apps, and offers. These relationships may influence which content we choose to write about,
+      but they do not influence our editorial honesty or our obligation to share useful, accurate information.
+    </p>
+    <p>We follow these principles in our affiliate relationships:</p>
+    <ul>
+      <li>We only share affiliates and offers we genuinely believe are worth mentioning.</li>
+      <li>We clearly disclose when a link may be an affiliate link, either in individual posts or through site-wide notices like this page.</li>
+      <li>We do not inflate claims about offers to generate more clicks.</li>
+      <li>We try to keep content updated when offer terms change, though we cannot always do so immediately.</li>
+    </ul>
+
+    <h2>FTC Disclosure Compliance</h2>
+    <p>
+      In accordance with the Federal Trade Commission's (FTC) guidelines concerning the use of endorsements and
+      testimonials in advertising (16 CFR Part 255), Smart Reward Finds discloses that some links on this site
+      may be affiliate or partner links. This disclosure applies to all content published on this website.
+    </p>
+    <p>
+      When a post contains affiliate links, you may see a disclosure note within the post itself as well.
+    </p>
+
+    <h2>Third-Party Products &amp; Services</h2>
+    <p>
+      Smart Reward Finds does not own or operate the products, services, apps, or platforms it writes about.
+      Any opinions expressed are our own. We are not responsible for the accuracy of third-party offers,
+      for changes to third-party terms, or for the results you experience using any third-party product or service.
+    </p>
+    <p>
+      Always do your own research and read the official terms of any offer, platform, or service before
+      participating. Third-party terms can change without notice.
+    </p>
+
+    <h2>Questions?</h2>
+    <p>
+      If you have questions about our affiliate relationships or specific links on this site,
+      please <a href="/contact">contact us</a>.
+    </p>
+
+  </div>
+</BaseLayout>

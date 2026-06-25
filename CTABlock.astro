@@ -1,0 +1,116 @@
+---
+// src/components/CTABlock.astro
+interface Props {
+  heading?: string;
+  subtext?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  variant?: 'gradient' | 'light';
+}
+
+const {
+  heading = "Ready to Discover Legit Finds?",
+  subtext = "Explore our curated guides on gift cards, smart tools, reward apps, and trusted offers.",
+  primaryLabel = "Browse the Blog",
+  primaryHref = "/blog",
+  secondaryLabel = "About This Site",
+  secondaryHref = "/about",
+  variant = 'gradient',
+} = Astro.props;
+---
+
+<style>
+  .cta-block {
+    border-radius: var(--radius-xl);
+    padding: 3rem 2.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .cta-block.gradient {
+    background: var(--grad-brand);
+    box-shadow: var(--shadow-lg);
+  }
+  .cta-block.light {
+    background: var(--off-white);
+    border: 1.5px solid var(--border);
+  }
+  .cta-heading {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 900;
+    line-height: 1.2;
+  }
+  .gradient .cta-heading { color: var(--white); }
+  .light .cta-heading { color: var(--text-dark); }
+  .cta-sub {
+    max-width: 540px;
+    font-size: 1rem;
+    line-height: 1.65;
+    margin-bottom: 0.5rem;
+  }
+  .gradient .cta-sub { color: rgba(255,255,255,0.88); }
+  .light .cta-sub { color: var(--text-muted); }
+  .cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    justify-content: center;
+  }
+  .gradient .btn-cta-primary {
+    background: var(--white);
+    color: var(--coral);
+    font-weight: 800;
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius-full);
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+  .gradient .btn-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+  .gradient .btn-cta-secondary {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid rgba(255,255,255,0.5);
+    padding: 0.78rem 1.8rem;
+    border-radius: var(--radius-full);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .gradient .btn-cta-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+  .light .btn-cta-primary {
+    background: var(--grad-brand);
+    color: var(--white);
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .light .btn-cta-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .light .btn-cta-secondary {
+    background: var(--white);
+    color: var(--coral);
+    border: 2px solid var(--coral);
+    padding: 0.78rem 1.8rem;
+    border-radius: var(--radius-full);
+    transition: background 0.2s;
+  }
+  .light .btn-cta-secondary:hover { background: #FFF0F3; }
+
+  a { font-family: var(--font-head); font-weight: 700; font-size: 0.95rem; }
+  a:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; border-radius: 999px; }
+
+  @media (max-width: 600px) {
+    .cta-block { padding: 2rem 1.5rem; }
+  }
+</style>
+
+<div class={`cta-block ${variant}`}>
+  <h2 class="cta-heading">{heading}</h2>
+  <p class="cta-sub">{subtext}</p>
+  <div class="cta-buttons">
+    <a href={primaryHref} class="btn-cta-primary">{primaryLabel}</a>
+    {secondaryLabel && <a href={secondaryHref} class="btn-cta-secondary">{secondaryLabel}</a>}
+  </div>
+</div>

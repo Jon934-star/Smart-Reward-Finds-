@@ -1,0 +1,282 @@
+---
+// src/layouts/BlogPostLayout.astro
+import BaseLayout from './BaseLayout.astro';
+import CTABlock from '../components/CTABlock.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  category: string;
+  tags?: string[];
+  featuredImage?: string;
+  featuredImageAlt?: string;
+  ctaLabel?: string;
+  ctaUrl?: string;
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  category,
+  tags = [],
+  featuredImage,
+  featuredImageAlt,
+  ctaLabel,
+  ctaUrl,
+} = Astro.props;
+
+const dateStr = pubDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const updatedStr = updatedDate?.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+const categoryColors: Record<string, string> = {
+  'Gift Card Giveaways': 'badge-coral',
+  'Smart Tools': 'badge-orange',
+  'Reward Apps': 'badge-purple',
+  'Exclusive Offers': 'badge-green',
+  'Product Finds': 'badge-yellow',
+  'How-To Guides': 'badge-navy',
+};
+const badgeClass = categoryColors[category] ?? 'badge-coral';
+
+const heroImg = featuredImage || '/images/cover-banner.png';
+---
+
+<style>
+  .post-hero {
+    background: var(--grad-hero);
+    padding: 3rem 0 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-hero-inner {
+    max-width: 820px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .post-dates {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-family: var(--font-head);
+  }
+  .post-hero-title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+  }
+  .post-hero-desc {
+    font-size: 1.08rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 1.5rem;
+  }
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+  }
+  .post-tag {
+    font-size: 0.78rem;
+    padding: 0.2rem 0.65rem;
+    background: rgba(255,77,109,0.08);
+    color: var(--coral);
+    border-radius: var(--radius-full);
+    font-family: var(--font-head);
+    font-weight: 700;
+  }
+  .post-featured-img {
+    width: 100%;
+    max-width: 820px;
+    aspect-ratio: 16/8;
+    object-fit: cover;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow-md);
+    display: block;
+    margin-top: 1rem;
+  }
+
+  .post-body-wrap {
+    padding: 3rem 0 4rem;
+  }
+  .post-content-inner {
+    max-width: 820px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .post-sidebar {
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .sidebar-box {
+    background: var(--off-white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+  }
+  .sidebar-box h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  .sidebar-box p { font-size: 0.88rem; }
+
+  .disclosure-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    background: #FFFBE6;
+    border: 1px solid #FFE080;
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+  }
+
+  /* Inline CTA block in article */
+  .article-cta {
+    background: var(--grad-brand);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    color: var(--white);
+    margin-block: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .article-cta h3 { color: var(--white); font-size: 1.1rem; }
+  .article-cta p { color: rgba(255,255,255,0.85); font-size: 0.9rem; margin: 0; }
+  .article-cta a {
+    display: inline-block;
+    background: var(--white);
+    color: var(--coral);
+    font-family: var(--font-head);
+    font-weight: 800;
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+    align-self: flex-start;
+  }
+  .article-cta a:hover { transform: translateY(-2px); }
+
+  @media (max-width: 900px) {
+    .post-content-inner { grid-template-columns: 1fr; }
+    .post-sidebar { position: static; }
+  }
+</style>
+
+<BaseLayout title={title} description={description} image={heroImg} type="article">
+
+  <!-- Post Hero -->
+  <section class="post-hero">
+    <div class="post-hero-inner">
+      <div class="post-meta-row">
+        <span class={`badge ${badgeClass}`}>{category}</span>
+        <span class="post-dates">
+          Published: {dateStr}
+          {updatedStr && <> · Updated: {updatedStr}</>}
+        </span>
+      </div>
+      <h1 class="post-hero-title">{title}</h1>
+      <p class="post-hero-desc">{description}</p>
+      {tags.length > 0 && (
+        <div class="post-tags">
+          {tags.map(t => <span class="post-tag">#{t}</span>)}
+        </div>
+      )}
+    </div>
+    <img
+      src={heroImg}
+      alt={featuredImageAlt || title}
+      class="post-featured-img"
+      style="max-width:820px; margin-inline:auto;"
+      width="820"
+      height="410"
+      loading="eager"
+    />
+  </section>
+
+  <!-- Post Body -->
+  <div class="post-body-wrap">
+    <div class="post-content-inner container">
+
+      <article class="prose">
+        <slot />
+
+        <!-- Optional CTA from frontmatter -->
+        {ctaUrl && (
+          <div class="article-cta">
+            <h3>🎯 Ready to Check This Out?</h3>
+            <p>This is a third-party resource. We share it for informational purposes — always review the terms before signing up.</p>
+            <a href={ctaUrl} target="_blank" rel="noopener nofollow">{ctaLabel || 'Explore the offer →'}</a>
+          </div>
+        )}
+
+        <!-- Affiliate disclosure note -->
+        <p class="disclosure-note">
+          📌 <strong>Disclosure:</strong> This page may contain affiliate or partner links. If you click through and take action, Smart Reward Finds may earn a small commission at no extra cost to you. We only share resources we believe are worth exploring. <a href="/affiliate-disclosure">Read our full disclosure.</a>
+        </p>
+      </article>
+
+      <!-- Sidebar -->
+      <aside class="post-sidebar">
+        <div class="sidebar-box">
+          <h4>Category</h4>
+          <span class={`badge ${badgeClass}`}>{category}</span>
+        </div>
+        {tags.length > 0 && (
+          <div class="sidebar-box">
+            <h4>Tags</h4>
+            <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+              {tags.map(t => <span class="post-tag">#{t}</span>)}
+            </div>
+          </div>
+        )}
+        <div class="sidebar-box">
+          <h4>About This Site</h4>
+          <p>Smart Reward Finds curates legit gift card giveaways, smart tools, trusted offers, and useful product finds.</p>
+        </div>
+        <div class="sidebar-box">
+          <h4>⚠️ Third-Party Note</h4>
+          <p style="font-size:0.82rem;color:var(--text-muted)">We share information about third-party offers. We don't control those services. Always check the official provider for current terms.</p>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="container section-sm">
+    <CTABlock
+      heading="Discover More Legit Finds"
+      subtext="Browse guides on gift cards, tools, reward apps, and trusted offers — all curated to be beginner-friendly and transparent."
+      primaryLabel="Back to Blog"
+      primaryHref="/blog"
+      secondaryLabel="About Smart Reward Finds"
+      secondaryHref="/about"
+      variant="light"
+    />
+  </div>
+
+</BaseLayout>

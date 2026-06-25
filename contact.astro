@@ -1,0 +1,370 @@
+---
+// src/pages/contact.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<style>
+  .contact-hero {
+    background: var(--grad-hero);
+    padding: 4rem 0 3rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-hero h1 { margin-bottom: 0.75rem; }
+  .contact-hero p  { color: var(--text-muted); max-width: 540px; margin-inline: auto; }
+
+  .contact-layout {
+    max-width: 1000px;
+    margin-inline: auto;
+    padding: 4rem 1.5rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  /* Form card */
+  .form-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem 2.25rem;
+    box-shadow: var(--shadow-card);
+  }
+  .form-card h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .form-card > p  { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 2rem; }
+
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--grad-brand);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-full);
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 0.5rem;
+  }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .submit-btn:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+  .form-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.85rem;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* Success message (hidden by default) */
+  .form-success {
+    display: none;
+    background: #E8F8EC;
+    border: 1.5px solid var(--green);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  .form-success h3 { color: var(--green); margin-bottom: 0.35rem; }
+  .form-success p  { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+
+  /* Sidebar */
+  .contact-sidebar {
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .sidebar-info-card {
+    background: var(--off-white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+  }
+  .sidebar-info-card h3 { font-size: 1rem; margin-bottom: 0.85rem; }
+  .info-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    margin-bottom: 0.85rem;
+    font-size: 0.88rem;
+    color: var(--text-body);
+  }
+  .info-item:last-child { margin-bottom: 0; }
+  .info-icon {
+    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+    background: #FFF0F3;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .info-item strong { display: block; color: var(--text-dark); font-family: var(--font-head); }
+
+  .notice-card {
+    background: #FFFBE6;
+    border: 1.5px solid #FFD700;
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-body);
+  }
+  .notice-card strong { display: block; margin-bottom: 0.35rem; color: var(--text-dark); }
+
+  @media (max-width: 900px) {
+    .contact-layout { grid-template-columns: 1fr; }
+    .contact-sidebar { position: static; }
+  }
+</style>
+
+<BaseLayout
+  title="Contact Us — Smart Reward Finds"
+  description="Get in touch with Smart Reward Finds. Report broken links, submit feedback, ask a question, or recommend an offer or tool for review."
+>
+
+  <section class="contact-hero">
+    <div class="container">
+      <span class="section-label" style="justify-content:center">Get in Touch</span>
+      <h1>Contact Smart Reward Finds</h1>
+      <p>
+        Have a question, broken link to report, or a suggestion? We'd love to hear from you.
+        Fill out the form below and we'll get back to you as soon as we can.
+      </p>
+    </div>
+  </section>
+
+  <div class="contact-layout container">
+
+    <!-- ══ CONTACT FORM ══════════════════════════════════════════
+         SETUP INSTRUCTIONS:
+         
+         This form is designed to work with a static form service.
+         OPTION A — Formspree (recommended, free tier available):
+           1. Go to https://formspree.io and create an account
+           2. Create a new form and copy your form endpoint URL
+              (looks like: https://formspree.io/f/xxxxxxxx)
+           3. Replace the action="#" on the <form> below with your endpoint
+           4. Formspree will email submissions to smartrewardfinds@gmail.com
+              (set that as your notification email in Formspree settings)
+         
+         OPTION B — Google Apps Script + Google Sheets:
+           1. Create a Google Sheet
+           2. In Google Sheets, go to Extensions → Apps Script
+           3. Paste the Apps Script web app code (see MAINTENANCE_NOTES.md)
+           4. Deploy as a web app → copy the deployment URL
+           5. Replace action="#" with that URL
+           6. Submissions will save to your Sheet and can email you too
+         
+         FIELD NAME MAPPING (keep these names for compatibility):
+           name        → Full Name
+           email       → Email Address
+           phone       → Phone Number
+           reason      → Reason for Message
+           message     → Additional Message
+           _replyto    → Reply-to header (used by Formspree)
+    ══════════════════════════════════════════════════════════ -->
+
+    <div>
+      <div class="form-card">
+        <h2>Send Us a Message</h2>
+        <p>All fields marked with <span style="color:var(--coral)">*</span> are required.</p>
+
+        <!-- EDIT: Replace action="#" with your Formspree URL or Apps Script URL -->
+        <form id="contact-form" action="#" method="POST">
+          <!-- Hidden field for Formspree redirect (optional) -->
+          <!-- <input type="hidden" name="_next" value="https://smartrewardfinds.com/contact?sent=true" /> -->
+          <!-- Hidden subject line for Formspree -->
+          <!-- <input type="hidden" name="_subject" value="New message from Smart Reward Finds" /> -->
+
+          <div class="form-group">
+            <label for="name">Full Name <span class="required" aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-control"
+              placeholder="Your full name"
+              required
+              autocomplete="name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address <span class="required" aria-hidden="true">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              placeholder="your@email.com"
+              required
+              autocomplete="email"
+            />
+            <!-- Formspree uses _replyto for reply-to header -->
+            <input type="hidden" name="_replyto" id="replyto" />
+          </div>
+
+          <div class="form-group">
+            <!-- EDIT: Change required to true below if you want phone to be mandatory -->
+            <label for="phone">Phone Number <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem">(optional)</span></label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              class="form-control"
+              placeholder="+1 (555) 000-0000"
+              autocomplete="tel"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="reason">Reason for Message <span class="required" aria-hidden="true">*</span></label>
+            <select id="reason" name="reason" class="form-control" required>
+              <option value="" disabled selected>Select a reason…</option>
+              <option value="General Question">General Question</option>
+              <option value="Broken Link or Expired Offer">Broken Link or Expired Offer</option>
+              <option value="Feedback or Suggestion">Feedback or Suggestion</option>
+              <option value="Correction or Update">Correction or Update</option>
+              <option value="Partnership Inquiry">Partnership Inquiry</option>
+              <option value="Offer / Tool Recommendation">Offer / Tool Recommendation</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Additional Message <span class="required" aria-hidden="true">*</span></label>
+            <textarea
+              id="message"
+              name="message"
+              class="form-control"
+              placeholder="Please provide any additional details here…"
+              required
+              rows="5"
+            ></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">Send Message →</button>
+
+          <p class="form-note">
+            We aim to respond within 2–3 business days. For urgent matters or account support with a third-party service, please contact that provider directly.
+          </p>
+        </form>
+
+        <!-- Success message shown after submit -->
+        <div class="form-success" id="form-success" role="alert" aria-live="polite">
+          <h3>✅ Message Sent!</h3>
+          <p>Thanks for reaching out. We'll get back to you within 2–3 business days.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="contact-sidebar">
+
+      <div class="sidebar-info-card">
+        <h3>📬 What You Can Contact Us About</h3>
+
+        <div class="info-item">
+          <div class="info-icon">🔗</div>
+          <div>
+            <strong>Broken Links / Expired Offers</strong>
+            Found a link that doesn't work or an offer that's expired? Let us know.
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">💬</div>
+          <div>
+            <strong>Feedback & Suggestions</strong>
+            Ideas to improve the site or something we should cover?
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">✏️</div>
+          <div>
+            <strong>Corrections & Updates</strong>
+            Spotted something inaccurate in our content? We appreciate corrections.
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">🤝</div>
+          <div>
+            <strong>Partnership Inquiries</strong>
+            Have an offer, tool, or resource you'd like us to review? Reach out.
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">❓</div>
+          <div>
+            <strong>General Questions</strong>
+            Questions about content published on this site — we're happy to help.
+          </div>
+        </div>
+      </div>
+
+      <!-- Important notice -->
+      <div class="notice-card">
+        <strong>⚠️ Third-Party Support Notice</strong>
+        Smart Reward Finds does <em>not</em> manage third-party offer accounts, handle payouts,
+        deliver rewards, or provide customer support for external platforms. For account-specific
+        issues, please contact the official provider directly.
+      </div>
+
+      <!-- Legal links -->
+      <div class="sidebar-info-card" style="padding:1.25rem">
+        <h3 style="font-size:0.88rem;margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">Helpful Links</h3>
+        <div style="display:flex;flex-direction:column;gap:0.5rem">
+          <a href="/affiliate-disclosure" style="font-size:0.88rem;color:var(--coral)">Affiliate Disclosure</a>
+          <a href="/privacy-policy" style="font-size:0.88rem;color:var(--coral)">Privacy Policy</a>
+          <a href="/disclaimer" style="font-size:0.88rem;color:var(--coral)">Disclaimer</a>
+          <a href="/about" style="font-size:0.88rem;color:var(--coral)">About Smart Reward Finds</a>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+</BaseLayout>
+
+<script>
+  // Mirror email to _replyto for Formspree
+  const emailInput = document.getElementById('email') as HTMLInputElement;
+  const replyto = document.getElementById('replyto') as HTMLInputElement;
+  if (emailInput && replyto) {
+    emailInput.addEventListener('input', () => { replyto.value = emailInput.value; });
+  }
+
+  // Basic client-side feedback (works for both Formspree and custom endpoint)
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const successMsg = document.getElementById('form-success');
+
+  // If your form service supports redirect, you can remove this JS handler
+  // and use the _next hidden field instead. This handler is for AJAX-style forms.
+  // Uncomment the block below ONLY if using fetch/AJAX submission:
+  /*
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    // EDIT: Replace with your endpoint URL
+    const res = await fetch('YOUR_ENDPOINT_HERE', { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+    if (res.ok) {
+      form.style.display = 'none';
+      if (successMsg) successMsg.style.display = 'block';
+    }
+  });
+  */
+</script>

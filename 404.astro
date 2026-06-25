@@ -1,0 +1,40 @@
+---
+// src/pages/404.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<style>
+  .not-found {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1.5rem;
+  }
+  .not-found-inner { max-width: 480px; }
+  .not-found-emoji { font-size: 4rem; margin-bottom: 1.5rem; }
+  .not-found h1 { font-size: 1.75rem; margin-bottom: 0.75rem; }
+  .not-found p  { color: var(--text-muted); margin-bottom: 2rem; }
+  .not-found-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    justify-content: center;
+  }
+</style>
+
+<BaseLayout title="Page Not Found — Smart Reward Finds" description="The page you're looking for doesn't exist.">
+  <section class="not-found">
+    <div class="not-found-inner">
+      <div class="not-found-emoji" aria-hidden="true">🔍</div>
+      <h1>Page Not Found</h1>
+      <p>The page you're looking for doesn't exist or may have moved. Let's get you back to something useful.</p>
+      <div class="not-found-links">
+        <a href="/" class="btn btn-primary">Go Home</a>
+        <a href="/blog" class="btn btn-secondary">Browse the Blog</a>
+        <a href="/contact" class="btn btn-ghost">Contact Us</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

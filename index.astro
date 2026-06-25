@@ -1,0 +1,463 @@
+---
+// src/pages/index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import PostCard from '../components/PostCard.astro';
+import CTABlock from '../components/CTABlock.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const latestPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 6);
+
+const categories = [
+  {
+    title: 'Gift Card Giveaways',
+    description: 'Legit gift card opportunities worth exploring — curated and explained so you know what you\'re getting into.',
+    icon: '🎁',
+    href: '/blog',
+    colorClass: 'coral',
+  },
+  {
+    title: 'Smart Tools',
+    description: 'Helpful online tools that can save you time, help you earn, or make everyday tasks easier.',
+    icon: '💡',
+    href: '/blog',
+    colorClass: 'orange',
+  },
+  {
+    title: 'Reward Apps',
+    description: 'Apps and platforms that reward you for everyday activity — broken down in plain language.',
+    icon: '📱',
+    href: '/blog',
+    colorClass: 'purple',
+  },
+  {
+    title: 'Exclusive Offers',
+    description: 'Handpicked offers from trusted platforms. We break down the details so you can decide.',
+    icon: '✨',
+    href: '/blog',
+    colorClass: 'green',
+  },
+  {
+    title: 'Product Finds',
+    description: 'Useful products and services we\'ve come across that may genuinely be worth your attention.',
+    icon: '🛍️',
+    href: '/blog',
+    colorClass: 'yellow',
+  },
+  {
+    title: 'How-To Guides',
+    description: 'Step-by-step beginner-friendly guides for navigating rewards, tools, and online offers.',
+    icon: '📖',
+    href: '/blog',
+    colorClass: 'navy',
+  },
+];
+
+const howItWorks = [
+  {
+    step: '01',
+    title: 'Discover',
+    desc: 'Find curated guides on gift card giveaways, reward apps, smart tools, and useful offers — all in one place.',
+    icon: '🔍',
+  },
+  {
+    step: '02',
+    title: 'Read & Understand',
+    desc: 'Each guide breaks things down clearly so you know what to expect before you click anything.',
+    icon: '📋',
+  },
+  {
+    step: '03',
+    title: 'Decide for Yourself',
+    desc: 'We give you the information. You decide if it\'s worth checking out. No pressure, no fake urgency.',
+    icon: '✅',
+  },
+  {
+    step: '04',
+    title: 'Visit the Official Source',
+    desc: 'If it looks good, we\'ll point you to the official provider\'s page to explore it on your own terms.',
+    icon: '🚀',
+  },
+];
+
+const trustPoints = [
+  { icon: '🔍', title: 'Curated, Not Random', desc: 'Every find is selected because it looks worth sharing — not just to fill a page.' },
+  { icon: '📝', title: 'Beginner-Friendly', desc: 'We write for real people, not marketing experts. Plain language, practical context.' },
+  { icon: '🤝', title: 'Transparent About Links', desc: 'When a link is an affiliate link, we say so. No hidden agendas.' },
+  { icon: '⚠️', title: 'Honest About Third Parties', desc: 'We share information about third-party offers but are clear that we don\'t run them.' },
+  { icon: '🔄', title: 'Updated When Possible', desc: 'Offers change. We try to keep content current, but always recommend checking official sources.' },
+  { icon: '🧭', title: 'Guides Over Hype', desc: 'We\'d rather you understand something than get excited about something that doesn\'t work for you.' },
+];
+---
+
+<style>
+  /* Hero section */
+  .hero {
+    background: var(--grad-hero);
+    padding: 4.5rem 0 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -150px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,77,109,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero-text {}
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,77,109,0.08);
+    color: var(--coral);
+    border-radius: var(--radius-full);
+    padding: 0.35rem 1rem;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 1.25rem;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    color: var(--text-dark);
+  }
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    max-width: 460px;
+  }
+  .hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.9rem;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-full);
+    font-size: 0.82rem;
+    font-family: var(--font-head);
+    font-weight: 700;
+    color: var(--text-body);
+    box-shadow: var(--shadow-sm);
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .hero-banner-img {
+    width: 100%;
+    max-width: 520px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow-lg);
+    display: block;
+  }
+
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; text-align: center; }
+    .hero-text { order: 1; }
+    .hero-visual { order: 2; }
+    .hero-desc { margin-inline: auto; }
+    .hero-actions { justify-content: center; }
+    .hero-pills { justify-content: center; }
+  }
+
+  /* How It Works */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+  .how-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+  }
+  .how-card::after {
+    content: attr(data-step);
+    position: absolute;
+    top: -10px; right: 10px;
+    font-family: var(--font-head);
+    font-weight: 900;
+    font-size: 4rem;
+    color: rgba(255,77,109,0.06);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .how-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .how-title { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .how-desc  { font-size: 0.87rem; color: var(--text-muted); line-height: 1.55; }
+
+  /* Trust section */
+  .trust-section { background: var(--off-white); }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+  .trust-card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 1.4rem;
+    border: 1.5px solid var(--border);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    box-shadow: var(--shadow-card);
+  }
+  .trust-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    background: #FFF0F3;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .trust-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem; font-family: var(--font-head); }
+  .trust-desc  { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin: 0; }
+
+  /* Pinterest CTA banner */
+  .pinterest-band {
+    background: var(--navy);
+    padding: 2.5rem 0;
+  }
+  .pinterest-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .pinterest-text h3 { color: var(--white); font-size: 1.3rem; }
+  .pinterest-text p  { color: rgba(255,255,255,0.65); font-size: 0.9rem; margin-top: 0.35rem; }
+  .btn-pinterest {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #E60023;
+    color: var(--white);
+    padding: 0.8rem 1.75rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 0.95rem;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-pinterest:hover { opacity: 0.9; transform: translateY(-2px); }
+
+  /* Section header helper */
+  .section-header { text-align: center; max-width: 600px; margin-inline: auto; margin-bottom: 0.5rem; }
+  .section-header .section-label { justify-content: center; }
+  .section-header h2 { margin-bottom: 0.75rem; }
+  .section-header p { color: var(--text-muted); font-size: 1rem; }
+</style>
+
+<BaseLayout>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <span class="hero-eyebrow">✨ Legit Finds. Real Rewards.</span>
+          <h1 class="hero-title">
+            Your Go-To Guide for<br/>
+            <span class="text-gradient">Legit Rewards &amp; Smart Finds</span>
+          </h1>
+          <p class="hero-desc">
+            Discover curated gift card giveaways, helpful tools, trusted offers, and
+            useful product finds — all explained clearly so you know what you're getting into.
+          </p>
+          <div class="hero-pills">
+            <span class="hero-pill">🎁 Gift Card Giveaways</span>
+            <span class="hero-pill">💡 Smart Tools</span>
+            <span class="hero-pill">📱 Reward Apps</span>
+            <span class="hero-pill">✨ Exclusive Offers</span>
+          </div>
+          <div class="hero-actions">
+            <a href="/blog" class="btn btn-primary btn-lg">Browse Latest Finds →</a>
+            <a href="/about" class="btn btn-secondary btn-lg">How This Works</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <!-- EDIT: Replace cover-banner.png with a different hero image if you want -->
+          <img
+            src="/images/cover-banner.png"
+            alt="Smart Reward Finds — Legit Finds. Real Rewards. Smarter You."
+            class="hero-banner-img"
+            width="520"
+            height="260"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CATEGORIES ─── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Browse by Topic</span>
+        <h2>What You'll Find Here</h2>
+        <p>From gift card giveaways to beginner guides — explore what Smart Reward Finds has to offer.</p>
+      </div>
+      <div style="margin-top:2.5rem" class="grid-3">
+        {categories.map(cat => (
+          <CategoryCard
+            title={cat.title}
+            description={cat.description}
+            icon={cat.icon}
+            href={cat.href}
+            colorClass={cat.colorClass}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── LATEST POSTS ─── -->
+  {latestPosts.length > 0 && (
+    <section class="section" style="background: var(--off-white)">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Fresh Guides</span>
+          <h2>Latest Finds &amp; Guides</h2>
+          <p>Explore reward guides, smart tools, gift card finds, and useful online offers curated to help you discover what's worth checking out.</p>
+        </div>
+        <div style="margin-top:2.5rem" class="grid-3">
+          {latestPosts.map(post => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              category={post.data.category}
+              slug={post.slug}
+              featuredImage={post.data.featuredImage}
+              featuredImageAlt={post.data.featuredImageAlt}
+            />
+          ))}
+        </div>
+        <div style="text-align:center;margin-top:2.5rem">
+          <a href="/blog" class="btn btn-primary">View All Posts →</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ─── HOW IT WORKS ─── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">How It Works</span>
+        <h2>Simple, Transparent, Helpful</h2>
+        <p>We make it easy to discover what's worth your time — without hype or misleading promises.</p>
+      </div>
+      <div class="how-grid">
+        {howItWorks.map(step => (
+          <div class="how-card" data-step={step.step}>
+            <div class="how-icon" aria-hidden="true">{step.icon}</div>
+            <h3 class="how-title">{step.title}</h3>
+            <p class="how-desc">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TRUST SECTION ─── -->
+  <section class="section trust-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Why Readers Use Smart Reward Finds</span>
+        <h2>Built Around Trust, Not Hype</h2>
+        <p>Here's how we approach sharing offers and resources on this site.</p>
+      </div>
+      <div class="trust-grid">
+        {trustPoints.map(tp => (
+          <div class="trust-card">
+            <div class="trust-icon" aria-hidden="true">{tp.icon}</div>
+            <div>
+              <h3 class="trust-title">{tp.title}</h3>
+              <p class="trust-desc">{tp.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─── -->
+  <section class="section">
+    <div class="container">
+      <CTABlock
+        heading="Start Discovering Legit Finds Today"
+        subtext="Browse our guides on gift cards, smart tools, reward apps, and trusted offers — all explained for real people."
+        primaryLabel="Explore the Blog →"
+        primaryHref="/blog"
+        secondaryLabel="About Smart Reward Finds"
+        secondaryHref="/about"
+        variant="gradient"
+      />
+    </div>
+  </section>
+
+  <!-- ─── PINTEREST BAND ─── -->
+  <div class="pinterest-band">
+    <div class="container">
+      <div class="pinterest-inner">
+        <div class="pinterest-text">
+          <h3>📌 Follow on Pinterest</h3>
+          <!-- EDIT: Update this text as needed -->
+          <p>Save your favorite finds and share legit reward guides with your circle.</p>
+        </div>
+        <!-- EDIT: Replace with your actual Pinterest URL -->
+        <a href="https://pinterest.com/smartrewardfinds" target="_blank" rel="noopener noreferrer" class="btn-pinterest">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+          </svg>
+          Follow on Pinterest
+        </a>
+      </div>
+    </div>
+  </div>
+
+</BaseLayout>

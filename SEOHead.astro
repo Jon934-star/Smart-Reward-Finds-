@@ -1,0 +1,50 @@
+---
+// src/components/SEOHead.astro
+// EDIT: Update siteName, defaultDescription, and defaultOGImage as needed
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  canonicalURL?: string;
+}
+
+const siteName = "Smart Reward Finds"; // EDIT: Site name
+const defaultDescription = "Discover legit gift card giveaways, smart tools, trusted offers, and useful product finds. Smart Reward Finds is your go-to resource for real rewards, curated with care.";
+const defaultOGImage = "/images/cover-banner.png"; // EDIT: Default social share image
+
+const {
+  title,
+  description = defaultDescription,
+  image = defaultOGImage,
+  type = 'website',
+  canonicalURL = Astro.url.href,
+} = Astro.props;
+
+const fullTitle = title ? `${title} | ${siteName}` : `${siteName} — Legit Finds. Real Rewards.`;
+---
+
+<!-- Primary Meta -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+<link rel="icon" type="image/png" href="/images/logo.png" />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.site).toString()} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content={siteName} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, Astro.site).toString()} />
+
+<!-- Pinterest verification (add your code here later) -->
+<!-- <meta name="p:domain_verify" content="YOUR_PINTEREST_VERIFY_CODE" /> -->
